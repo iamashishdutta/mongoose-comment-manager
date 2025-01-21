@@ -1,4 +1,4 @@
-Here’s an updated README with the correct package name:
+Here’s the updated README without any links:
 
 ---
 
@@ -8,11 +8,11 @@ A dynamic and easy-to-use user manager for MongoDB using Mongoose. This package 
 
 ## Table of Contents 📜
 
-- [Installation 🛠](#installation)
-- [Usage 📘](#usage)
-- [Methods 💻](#methods)
-- [Schema 🔑](#schema)
-- [License 📝](#license)
+- Installation 🛠
+- Usage 📘
+- Methods 💻
+- Schema 🔑
+- License 📝
 
 ---
 
