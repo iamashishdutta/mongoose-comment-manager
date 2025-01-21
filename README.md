@@ -3,24 +3,19 @@
 # UserManager README 📖
 
 ## Overview
-The `UserManager` class is designed for managing user data with MongoDB, using Mongoose. It supports dynamic table names and provides methods for handling user records efficiently. This module allows you to handle operations for both single and multiple users with ease.
+The `UserManager` class is designed to manage user data in MongoDB with Mongoose. It supports dynamic table names, allowing you to create, read, update, delete, deactivate, and reactivate user records efficiently. This module provides flexibility for handling user records in different collections.
 
----
+## Peer Dependencies 📦
+To use the `UserManager`, you'll need to install the following peer dependencies:
+- `mongoose`: A popular ODM (Object Document Mapper) for MongoDB.
 
-## Peer Dependencies 🔗
-The `UserManager` class has the following peer dependencies:
-
-- `mongoose`: A required dependency to interact with MongoDB. Ensure that you install the appropriate version of Mongoose that is compatible with your project.
-
-To install the required peer dependency, run:
+Install it using the following command:
 ```bash
 npm install mongoose
 ```
 
----
-
 ## Supported Operations 🔧
-The following methods are supported for managing user records:
+The following methods are available for managing user records:
 
 ### 1️⃣ **create** 📝
 - **Description**: Create one or multiple user records.
@@ -46,32 +41,25 @@ The following methods are supported for managing user records:
   userManager.update([{ field: 'username', value: 'john', data: { bio: 'Updated bio' } }]);
   ```
 
-### 4️⃣ **softDelete** 🗑️
-- **Description**: Soft delete one or multiple user records (mark as deleted and locked).
+### 4️⃣ **delete** 🗑️
+- **Description**: Delete one or multiple user records. Supports both soft delete (mark as deleted) and strict delete (permanent deletion).
 - **Supports**: Single and multiple requests.
 - **Usage**:
   ```js
-  userManager.softDelete([{ field: 'email', value: 'john@example.com' }]);
+  userManager.delete([{ field: 'email', value: 'john@example.com' }], true); // Strict delete
+  userManager.delete([{ field: 'email', value: 'john@example.com' }]); // Soft delete
   ```
 
-### 5️⃣ **strictDelete** 💀
-- **Description**: Permanently delete one or multiple user records.
-- **Supports**: Single and multiple requests.
-- **Usage**:
-  ```js
-  userManager.strictDelete([{ field: 'email', value: 'john@example.com' }]);
-  ```
-
-### 6️⃣ **deactivate** 🔒
-- **Description**: Deactivate (lock) one or multiple user accounts and update `deactivated_at`.
+### 5️⃣ **deactivate** 🔒
+- **Description**: Deactivate one or multiple user accounts and update `deactivated_at`.
 - **Supports**: Single and multiple requests.
 - **Usage**:
   ```js
   userManager.deactivate([{ field: 'email', value: 'john@example.com' }]);
   ```
 
-### 7️⃣ **reactivate** 🔓
-- **Description**: Reactivate (unlock) one or multiple user accounts and update `reactivated_at`.
+### 6️⃣ **reactivate** 🔓
+- **Description**: Reactivate one or multiple user accounts and update `reactivated_at`.
 - **Supports**: Single and multiple requests.
 - **Usage**:
   ```js
@@ -82,7 +70,7 @@ The following methods are supported for managing user records:
 
 ## User Schema 📊
 
-The schema for the user model is dynamic and can be used for different collections. Below is the schema in a table format:
+The schema for the user model is dynamic, and the table name can be provided when creating the `UserManager` instance. The schema includes the following fields:
 
 | Field                  | Type                  | Description                                            |
 |------------------------|-----------------------|--------------------------------------------------------|
@@ -144,7 +132,7 @@ userManager.get([{ field: 'email', value: 'john@example.com' }]);
 userManager.update([{ field: 'email', value: 'john@example.com', data: { bio: 'Updated bio' } }]);
 
 // Soft delete a user
-userManager.softDelete([{ field: 'email', value: 'john@example.com' }]);
+userManager.delete([{ field: 'email', value: 'john@example.com' }]);
 
 // Deactivate a user account
 userManager.deactivate([{ field: 'email', value: 'john@example.com' }]);
