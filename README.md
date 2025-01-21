@@ -1,13 +1,13 @@
 
 ---
 
-# mongoose-user-manager 📖
+# user-mongoose-crud 📖
 
 ## Overview
-The `mongoose-user-manager` package is designed to manage user data in MongoDB using Mongoose. It supports dynamic table names, allowing you to create, read, update, delete, deactivate, and reactivate user records efficiently. This module provides flexibility for handling user records in different collections.
+The `user-mongoose-crud` package is designed to manage user data in MongoDB using Mongoose. It supports dynamic table names, allowing you to create, read, update, delete, deactivate, and reactivate user records efficiently. This module provides flexibility for handling user records in different collections.
 
 ## Peer Dependencies 📦
-To use the `mongoose-user-manager`, you'll need to install the following peer dependency:
+To use the `user-mongoose-crud`, you'll need to install the following peer dependency:
 - `mongoose`: A popular ODM (Object Document Mapper) for MongoDB.
 
 Install it using the following command:
@@ -110,12 +110,12 @@ The schema for the user model is dynamic, and the table name can be provided whe
 ### 1️⃣ **Installation**
 Install the package using npm:
 ```bash
-npm install mongoose-user-manager
+npm install user-mongoose-crud
 ```
 
 ### 2️⃣ **Example Usage**
 ```js
-const UserManager = require('mongoose-user-manager');
+const UserManager = require('user-mongoose-crud');
 
 // Initialize the UserManager with database configuration and dynamic table name
 const userManager = new UserManager({
@@ -123,23 +123,62 @@ const userManager = new UserManager({
   options: { useNewUrlParser: true, useUnifiedTopology: true }
 }, 'users');
 
-// Create users
-userManager.create([{ username: 'john', email: 'john@example.com' }]);
+// Create users with a password field
+userManager
+  .create([
+    { username: 'john', email: 'john@example.com', password: 'john123' },
+    { username: 'rambo', email: 'rambo@example.com', password: 'rambo456' }
+  ])
+  .then(() => {
+    console.log('Users created successfully.');
 
-// Get user records by email
-userManager.get([{ field: 'email', value: 'john@example.com' }]);
+    // Get user records by email (multiple conditions)
+    return userManager.get([
+      { field: 'email', value: 'john@example.com' },
+      { field: 'email', value: 'rambo@example.com' }
+    ]);
+  })
+  .then((result) => {
+    console.log('User records:', result);
 
-// Update user bio
-userManager.update([{ field: 'email', value: 'john@example.com', data: { bio: 'Updated bio' } }]);
+    // Update user bio
+    return userManager.update([
+      { field: 'email', value: 'john@example.com', data: { bio: 'Updated bio for John' } },
+      { field: 'email', value: 'rambo@example.com', data: { bio: 'Updated bio for Rambo' } }
+    ]);
+  })
+  .then(() => {
+    console.log('User bios updated successfully.');
 
-// Soft delete a user
-userManager.delete([{ field: 'email', value: 'john@example.com' }]);
+    // Soft delete users
+    return userManager.delete([
+      { field: 'email', value: 'john@example.com' },
+      { field: 'email', value: 'rambo@example.com' }
+    ]);
+  })
+  .then(() => {
+    console.log('Users soft deleted successfully.');
 
-// Deactivate a user account
-userManager.deactivate([{ field: 'email', value: 'john@example.com' }]);
+    // Deactivate user accounts
+    return userManager.deactivate([
+      { field: 'email', value: 'john@example.com' },
+      { field: 'email', value: 'rambo@example.com' }
+    ]);
+  })
+  .then(() => {
+    console.log('Users deactivated successfully.');
 
-// Close the connection
-userManager.closeConnection();
+    // Close the connection
+    return userManager.closeConnection();
+  })
+  .then(() => {
+    console.log('Database connection closed.');
+  })
+  .catch((err) => {
+    console.error('An error occurred:', err);
+    userManager.closeConnection(); // Ensure the connection is closed even if an error occurs
+  });
+
 ```
 
 ---
