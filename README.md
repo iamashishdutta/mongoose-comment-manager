@@ -1,10 +1,11 @@
-Here’s the updated README without any links:
 
 ---
 
 # Mongoose User CRUD 📦
 
 A dynamic and easy-to-use user manager for MongoDB using Mongoose. This package allows you to perform CRUD operations for **one or many users** at a time, all while supporting a customizable user schema. 🚀
+
+---
 
 ## Table of Contents 📜
 
@@ -46,14 +47,22 @@ const tableName = 'users'; // This is your dynamic table name (collection name)
 const userManager = new UserManager(dbConfig, tableName);
 ```
 
+**Note:** This package can handle both **single** and **multiple** user requests. You can pass a single user object or an array of users to most methods, making it flexible for both small and large operations. ✨
+
 ---
 
 ## Methods 💻
 
 ### Create Users ✍️
-Create multiple users at once. You can pass an array of user data.
+Create multiple users at once or a single user. You can pass an array of user data or a single user object.
 
 ```js
+// Single User
+userManager.create([{ username: 'john_doe', email: 'john@example.com', password: 'securePassword123' }])
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+// Multiple Users
 const users = [
   { username: 'john_doe', email: 'john@example.com', password: 'securePassword123' },
   { username: 'jane_doe', email: 'jane@example.com', password: 'securePassword123' },
@@ -65,9 +74,15 @@ userManager.create(users)
 ```
 
 ### Get Users 🔍
-Retrieve user(s) by a field and value (e.g., username, email).
+Retrieve user(s) by a field and value (e.g., username, email). This method works for both single and multiple requests.
 
 ```js
+// Single User
+userManager.get([{ field: 'email', value: 'john@example.com' }])
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+// Multiple Users
 const usersToGet = [
   { field: 'email', value: 'john@example.com' },
   { field: 'email', value: 'jane@example.com' },
@@ -79,11 +94,18 @@ userManager.get(usersToGet)
 ```
 
 ### Update Users ✏️
-Update user data by a field and value. 
+Update user data by a field and value. This method supports both single and multiple updates.
 
 ```js
+// Single User
+userManager.update([{ field: 'email', value: 'john@example.com', data: { first_name: 'John Updated' } }])
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+// Multiple Users
 const usersToUpdate = [
   { field: 'email', value: 'john@example.com', data: { first_name: 'John Updated' } },
+  { field: 'email', value: 'jane@example.com', data: { first_name: 'Jane Updated' } },
 ];
 
 userManager.update(usersToUpdate)
@@ -92,11 +114,18 @@ userManager.update(usersToUpdate)
 ```
 
 ### Soft Delete Users 🗑️
-Soft delete users (mark as deleted, locked) by a field and value.
+Soft delete users (mark as deleted, locked) by a field and value. This works for both single and multiple deletions.
 
 ```js
+// Single User
+userManager.softDelete([{ field: 'email', value: 'john@example.com' }])
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+// Multiple Users
 const usersToDelete = [
   { field: 'email', value: 'john@example.com' },
+  { field: 'email', value: 'jane@example.com' },
 ];
 
 userManager.softDelete(usersToDelete)
@@ -105,11 +134,18 @@ userManager.softDelete(usersToDelete)
 ```
 
 ### Strict Delete Users 🗑️💥
-Permanently delete users by a field and value.
+Permanently delete users by a field and value. This method supports single and multiple user deletions.
 
 ```js
+// Single User
+userManager.strictDelete([{ field: 'email', value: 'john@example.com' }])
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+// Multiple Users
 const usersToDelete = [
   { field: 'email', value: 'john@example.com' },
+  { field: 'email', value: 'jane@example.com' },
 ];
 
 userManager.strictDelete(usersToDelete)
@@ -118,11 +154,18 @@ userManager.strictDelete(usersToDelete)
 ```
 
 ### Deactivate Users 🚫
-Deactivate users (lock accounts) and set `deactivated_at` timestamp.
+Deactivate users (lock accounts) and set `deactivated_at` timestamp. Works for single and multiple user deactivations.
 
 ```js
+// Single User
+userManager.deactivate([{ field: 'email', value: 'john@example.com' }])
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+// Multiple Users
 const usersToDeactivate = [
   { field: 'email', value: 'john@example.com' },
+  { field: 'email', value: 'jane@example.com' },
 ];
 
 userManager.deactivate(usersToDeactivate)
@@ -131,11 +174,18 @@ userManager.deactivate(usersToDeactivate)
 ```
 
 ### Reactivate Users 🔓
-Reactivate users (unlock accounts) and set `reactivated_at` timestamp.
+Reactivate users (unlock accounts) and set `reactivated_at` timestamp. This method works for both single and multiple users.
 
 ```js
+// Single User
+userManager.reactivate([{ field: 'email', value: 'john@example.com' }])
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+// Multiple Users
 const usersToReactivate = [
   { field: 'email', value: 'john@example.com' },
+  { field: 'email', value: 'jane@example.com' },
 ];
 
 userManager.reactivate(usersToReactivate)
