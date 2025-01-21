@@ -4,10 +4,10 @@
 # user-mongoose-crud 📖
 
 ## Overview
-The `user-mongoose-crud` package is designed to manage user data in MongoDB using Mongoose. It supports dynamic table names, allowing you to create, read, update, delete, deactivate, and reactivate user records efficiently. This module provides flexibility for handling user records in different collections.
+The `user-mongoose-crud` package is designed to manage user data in MongoDB using Mongoose. It supports dynamic table names and flexible schema management, allowing you to create, read, update, delete, deactivate, and reactivate user records efficiently. This module provides a robust framework for handling user data in various collections with customizable schemas.
 
 ## Peer Dependencies 📦
-To use the `user-mongoose-crud`, you'll need to install the following peer dependency:
+To use `user-mongoose-crud`, you'll need to install the following peer dependency:
 - `mongoose`: A popular ODM (Object Document Mapper) for MongoDB.
 
 Install it using the following command:
@@ -67,7 +67,21 @@ The following methods are available for managing user records:
   userManager.reactivate([{ field: 'email', value: 'john@example.com' }]);
   ```
 
----
+### 7️⃣ **replaceSchema** 🔄
+- **Description**: Replace the user schema with a new one.
+- **Usage**:
+  ```js
+  userManager.replaceSchema({ bio: { type: String }, newField: { type: String } });
+  ```
+
+### 8️⃣ **extendSchema** ➕
+- **Description**: Extend the user schema by adding additional fields.
+- **Usage**:
+  ```js
+  userManager.extendSchema({ newField: { type: String } });
+  ```
+
+--- 
 
 ## User Schema 📊
 
@@ -131,7 +145,7 @@ userManager
   ])
   .then(() => {
     console.log('Users created successfully.');
-
+    
     // Get user records by email (multiple conditions)
     return userManager.get([
       { field: 'email', value: 'john@example.com' },
@@ -140,7 +154,7 @@ userManager
   })
   .then((result) => {
     console.log('User records:', result);
-
+    
     // Update user bio
     return userManager.update([
       { field: 'email', value: 'john@example.com', data: { bio: 'Updated bio for John' } },
@@ -149,7 +163,7 @@ userManager
   })
   .then(() => {
     console.log('User bios updated successfully.');
-
+    
     // Soft delete users
     return userManager.delete([
       { field: 'email', value: 'john@example.com' },
@@ -158,7 +172,7 @@ userManager
   })
   .then(() => {
     console.log('Users soft deleted successfully.');
-
+    
     // Deactivate user accounts
     return userManager.deactivate([
       { field: 'email', value: 'john@example.com' },
@@ -167,7 +181,7 @@ userManager
   })
   .then(() => {
     console.log('Users deactivated successfully.');
-
+    
     // Close the connection
     return userManager.closeConnection();
   })
@@ -178,7 +192,6 @@ userManager
     console.error('An error occurred:', err);
     userManager.closeConnection(); // Ensure the connection is closed even if an error occurs
   });
-
 ```
 
 ---
@@ -188,4 +201,6 @@ userManager
 Feel free to reach out if you have any issues or suggestions!  
 License: MIT 🎉
 
---- 
+---
+
+This version reflects the new flexibility with schema modification methods like `replaceSchema` and `extendSchema`.
