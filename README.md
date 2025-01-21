@@ -25,6 +25,15 @@ Install via npm:
 npm install mongoose-user-crud
 ```
 
+## ⚙️ Peer Dependencies
+
+This package requires **Mongoose** to work properly. You need to install Mongoose manually in your project.
+
+Add **Mongoose** as a peer dependency:
+
+```bash
+npm install mongoose
+
 ---
 
 ## Usage 📘
