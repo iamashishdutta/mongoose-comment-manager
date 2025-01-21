@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the user schema (same structure, but now can use dynamic table name)
-const createUserSchema = (tableName) => {
-  return new Schema({
+// Default user schema with dynamic table name
+const createUserSchema = (tableName, schemaFields = {}) => {
+  const defaultSchema = {
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -30,8 +30,13 @@ const createUserSchema = (tableName) => {
     deleted_at: { type: Date, default: null },
     activated_at: { type: Date, default: null },
     reactivated_at: { type: Date, default: null },
-    deactivated_at: { type: Date, default: null } // New field for deactivation timestamp
-  }, { collection: tableName });
+    deactivated_at: { type: Date, default: null }
+  };
+
+  // Merge default schema with the additional schema fields if any
+  const schema = { ...defaultSchema, ...schemaFields };
+
+  return new Schema(schema, { collection: tableName });
 };
 
 // General method for handling CRUD operations
@@ -111,13 +116,30 @@ class UserManager {
         .catch(err => console.error('MongoDB connection error:', err));
     }
 
-    // Dynamically create the schema for the provided table name
-    const userSchema = createUserSchema(tableName);
-    
-    // Use the dynamically created schema to create the model
-    this.Model = mongoose.model(tableName, userSchema);
+    this.tableName = tableName;
+    this.Model = null;
+    this.Manager = null;
+  }
 
-    // Initialize the RecordManager with the dynamic model
+  // Method to replace the schema with a new one provided by the user
+  replaceSchema(newSchemaFields = {}) {
+    const userSchema = new Schema(newSchemaFields, { collection: this.tableName });
+    this.Model = mongoose.model(this.tableName, userSchema);
+    this.Manager = new RecordManager(this.Model);
+  }
+
+  // Method to extend the schema with new fields
+  extendSchema(additionalSchemaFields = {}) {
+    const userSchema = createUserSchema(this.tableName);
+    const extendedSchema = { ...userSchema.obj, ...additionalSchemaFields };
+    this.Model = mongoose.model(this.tableName, new Schema(extendedSchema, { collection: this.tableName }));
+    this.Manager = new RecordManager(this.Model);
+  }
+
+  // Initialize schema (initializes with default schema if not replaced or extended yet)
+  initializeSchema() {
+    const userSchema = createUserSchema(this.tableName);
+    this.Model = mongoose.model(this.tableName, userSchema);
     this.Manager = new RecordManager(this.Model);
   }
 
