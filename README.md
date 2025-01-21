@@ -1,4 +1,5 @@
 
+```markdown
 # Mongoose User CRUD 📦
 
 A dynamic and easy-to-use user manager for MongoDB using Mongoose. This package allows you to perform CRUD operations for **one or many users** at a time, all while supporting a customizable user schema. 🚀
@@ -7,12 +8,12 @@ A dynamic and easy-to-use user manager for MongoDB using Mongoose. This package 
 
 ## Table of Contents 📜
 
-- [Installation 🛠](#installation-)
-- [Peer Dependencies ⚙️](#-peer-dependencies)
-- [Usage 📘](#usage-)
-- [Methods 💻](#methods-)
-- [Schema 🔑](#schema-)
-- [License 📝](#license-)
+- Installation 🛠
+- Peer Dependencies ⚙️
+- Usage 📘
+- Methods 💻
+- Schema 🔑
+- License 📝
 
 ---
 
