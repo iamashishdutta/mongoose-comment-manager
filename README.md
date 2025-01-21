@@ -1,253 +1,163 @@
+---
 
-# Mongoose User CRUD 📦
+# UserManager README 📖
 
-A dynamic and easy-to-use user manager for MongoDB using Mongoose. This package allows you to perform CRUD operations for **one or many users** at a time, all while supporting a customizable user schema. 🚀
+## Overview
+The `UserManager` class is designed for managing user data with MongoDB, using Mongoose. It supports dynamic table names and provides methods for handling user records efficiently. This module allows you to handle operations for both single and multiple users with ease.
 
 ---
 
-## Table of Contents 📜
+## Peer Dependencies 🔗
+The `UserManager` class has the following peer dependencies:
 
-- Installation 🛠
-- Peer Dependencies ⚙️
-- Usage 📘
-- Methods 💻
-- Schema 🔑
-- License 📝
+- `mongoose`: A required dependency to interact with MongoDB. Ensure that you install the appropriate version of Mongoose that is compatible with your project.
 
----
-
-## Installation 🛠
-
-To install the package via npm:
-
-```bash
-npm install mongoose-user-crud
-```
-
-
-## ⚙️ Peer Dependencies
-
-This package requires **Mongoose** to work properly. You need to install Mongoose manually in your project.
-
-Add **Mongoose** as a peer dependency:
-
+To install the required peer dependency, run:
 ```bash
 npm install mongoose
 ```
 
 ---
 
-## Usage 📘
+## Supported Operations 🔧
+The following methods are supported for managing user records:
 
-To get started, require the `mongoose-user-crud` package and instantiate it by providing your MongoDB configuration and dynamic table name (the collection name for your user data).
+### 1️⃣ **create** 📝
+- **Description**: Create one or multiple user records.
+- **Supports**: Single and multiple requests.
+- **Usage**:
+  ```js
+  userManager.create([{ username: 'john', email: 'john@example.com' }]);
+  ```
 
-```js
-const UserManager = require('mongoose-user-crud');
+### 2️⃣ **get** 🔍
+- **Description**: Retrieve user records by a specific field and value.
+- **Supports**: Single and multiple requests.
+- **Usage**:
+  ```js
+  userManager.get([{ field: 'username', value: 'john' }]);
+  ```
 
-const dbConfig = {
-  uri: 'your-mongodb-uri',
-  options: {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-};
+### 3️⃣ **update** ✏️
+- **Description**: Update one or multiple user records by a specific field and value.
+- **Supports**: Single and multiple requests.
+- **Usage**:
+  ```js
+  userManager.update([{ field: 'username', value: 'john', data: { bio: 'Updated bio' } }]);
+  ```
 
-const tableName = 'users'; // This is your dynamic table name (collection name)
+### 4️⃣ **softDelete** 🗑️
+- **Description**: Soft delete one or multiple user records (mark as deleted and locked).
+- **Supports**: Single and multiple requests.
+- **Usage**:
+  ```js
+  userManager.softDelete([{ field: 'email', value: 'john@example.com' }]);
+  ```
 
-const userManager = new UserManager(dbConfig, tableName);
-```
+### 5️⃣ **strictDelete** 💀
+- **Description**: Permanently delete one or multiple user records.
+- **Supports**: Single and multiple requests.
+- **Usage**:
+  ```js
+  userManager.strictDelete([{ field: 'email', value: 'john@example.com' }]);
+  ```
 
-> **Note:** This package can handle both **single** and **multiple** user requests. You can pass a single user object or an array of users to most methods, making it flexible for both small and large operations.
+### 6️⃣ **deactivate** 🔒
+- **Description**: Deactivate (lock) one or multiple user accounts and update `deactivated_at`.
+- **Supports**: Single and multiple requests.
+- **Usage**:
+  ```js
+  userManager.deactivate([{ field: 'email', value: 'john@example.com' }]);
+  ```
+
+### 7️⃣ **reactivate** 🔓
+- **Description**: Reactivate (unlock) one or multiple user accounts and update `reactivated_at`.
+- **Supports**: Single and multiple requests.
+- **Usage**:
+  ```js
+  userManager.reactivate([{ field: 'email', value: 'john@example.com' }]);
+  ```
 
 ---
 
-## Methods 💻
+## User Schema 📊
 
-### Create Users ✍️
+The schema for the user model is dynamic and can be used for different collections. Below is the schema in a table format:
 
-Create one or more users at once. You can pass an array of user data or a single user object.
+| Field                  | Type                  | Description                                            |
+|------------------------|-----------------------|--------------------------------------------------------|
+| `username`             | String (Required, Unique) | User's unique username.                               |
+| `email`                | String (Required, Unique) | User's email address.                                  |
+| `password`             | String (Required)      | User's password.                                       |
+| `first_name`           | String                | User's first name.                                     |
+| `last_name`            | String                | User's last name.                                      |
+| `phone_number`         | String                | User's phone number.                                   |
+| `profile_picture`      | String                | URL to the user's profile picture.                     |
+| `bio`                  | String                | Bio description of the user.                           |
+| `role`                 | String ('admin', 'user', 'moderator') | Role of the user. Default is 'user'.            |
+| `address`              | String                | User's home address.                                   |
+| `dob`                  | Date                  | User's date of birth.                                  |
+| `gender`               | String ('male', 'female', 'other') | User's gender.                                      |
+| `created_at`           | Date (Default: Date.now) | Account creation date.                                 |
+| `updated_at`           | Date (Default: Date.now) | Account last updated date.                             |
+| `last_login`           | Date                  | Last login timestamp.                                  |
+| `login_attempts`       | Number (Default: 0)    | Number of failed login attempts.                       |
+| `two_factor_enabled`   | Boolean (Default: false) | Indicates if two-factor authentication is enabled.    |
+| `language_preference`  | String (Default: 'en') | User's preferred language.                             |
+| `timezone`             | String                | User's timezone.                                       |
+| `referral_code`        | String                | Referral code used by the user.                        |
+| `newsletter_subscribed`| Boolean (Default: false) | Whether the user is subscribed to the newsletter.    |
+| `privacy_settings`     | Mixed                 | User's privacy settings.                               |
+| `locked`               | Boolean (Default: false) | Indicates if the user account is locked.               |
+| `deleted_at`           | Date (Default: null)   | Soft delete timestamp.                                 |
+| `activated_at`         | Date (Default: null)   | Account activation timestamp.                          |
+| `reactivated_at`       | Date (Default: null)   | Account reactivation timestamp.                        |
+| `deactivated_at`       | Date (Default: null)   | Account deactivation timestamp.                        |
 
-```js
-// Single User
-userManager.create([{ username: 'john_doe', email: 'john@example.com', password: 'securePassword123' }])
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
+---
 
-// Multiple Users
-const users = [
-  { username: 'john_doe', email: 'john@example.com', password: 'securePassword123' },
-  { username: 'jane_doe', email: 'jane@example.com', password: 'securePassword123' },
-];
+## Setup and Usage 🔌
 
-userManager.create(users)
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
+### 1️⃣ **Installation**
+Install the package using npm:
+```bash
+npm install user-manager
 ```
 
-### Get Users 🔍
-
-Retrieve one or more users by a field and value (e.g., username, email).
-
+### 2️⃣ **Example Usage**
 ```js
-// Single User
-userManager.get([{ field: 'email', value: 'john@example.com' }])
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
+const UserManager = require('user-manager');
 
-// Multiple Users
-const usersToGet = [
-  { field: 'email', value: 'john@example.com' },
-  { field: 'email', value: 'jane@example.com' },
-];
+// Initialize the UserManager with database configuration and dynamic table name
+const userManager = new UserManager({
+  uri: 'mongodb://localhost:27017/yourDB',
+  options: { useNewUrlParser: true, useUnifiedTopology: true }
+}, 'users');
 
-userManager.get(usersToGet)
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-```
+// Create users
+userManager.create([{ username: 'john', email: 'john@example.com' }]);
 
-### Update Users ✏️
+// Get user records by email
+userManager.get([{ field: 'email', value: 'john@example.com' }]);
 
-Update user data by a field and value. This method supports both single and multiple updates.
+// Update user bio
+userManager.update([{ field: 'email', value: 'john@example.com', data: { bio: 'Updated bio' } }]);
 
-```js
-// Single User
-userManager.update([{ field: 'email', value: 'john@example.com', data: { first_name: 'John Updated' } }])
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
+// Soft delete a user
+userManager.softDelete([{ field: 'email', value: 'john@example.com' }]);
 
-// Multiple Users
-const usersToUpdate = [
-  { field: 'email', value: 'john@example.com', data: { first_name: 'John Updated' } },
-  { field: 'email', value: 'jane@example.com', data: { first_name: 'Jane Updated' } },
-];
+// Deactivate a user account
+userManager.deactivate([{ field: 'email', value: 'john@example.com' }]);
 
-userManager.update(usersToUpdate)
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-```
-
-### Soft Delete Users 🗑️
-
-Soft delete users (mark as deleted or locked) by a field and value. This works for both single and multiple deletions.
-
-```js
-// Single User
-userManager.softDelete([{ field: 'email', value: 'john@example.com' }])
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-
-// Multiple Users
-const usersToDelete = [
-  { field: 'email', value: 'john@example.com' },
-  { field: 'email', value: 'jane@example.com' },
-];
-
-userManager.softDelete(usersToDelete)
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-```
-
-### Strict Delete Users 🗑️💥
-
-Permanently delete users by a field and value. This method supports both single and multiple deletions.
-
-```js
-// Single User
-userManager.strictDelete([{ field: 'email', value: 'john@example.com' }])
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-
-// Multiple Users
-const usersToDelete = [
-  { field: 'email', value: 'john@example.com' },
-  { field: 'email', value: 'jane@example.com' },
-];
-
-userManager.strictDelete(usersToDelete)
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-```
-
-### Deactivate Users 🚫
-
-Deactivate users (lock accounts) and set the `deactivated_at` timestamp. Works for both single and multiple deactivations.
-
-```js
-// Single User
-userManager.deactivate([{ field: 'email', value: 'john@example.com' }])
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-
-// Multiple Users
-const usersToDeactivate = [
-  { field: 'email', value: 'john@example.com' },
-  { field: 'email', value: 'jane@example.com' },
-];
-
-userManager.deactivate(usersToDeactivate)
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-```
-
-### Reactivate Users 🔓
-
-Reactivate users (unlock accounts) and set the `reactivated_at` timestamp. This method works for both single and multiple reactivations.
-
-```js
-// Single User
-userManager.reactivate([{ field: 'email', value: 'john@example.com' }])
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
-
-// Multiple Users
-const usersToReactivate = [
-  { field: 'email', value: 'john@example.com' },
-  { field: 'email', value: 'jane@example.com' },
-];
-
-userManager.reactivate(usersToReactivate)
-  .then(result => console.log(result))
-  .catch(err => console.error(err));
+// Close the connection
+userManager.closeConnection();
 ```
 
 ---
 
-## Schema 🔑
+## Support & License 📑
 
-This package supports a **dynamic schema** for users, where you can define a table (collection) name at runtime. The schema includes various fields for user data such as:
+Feel free to reach out if you have any issues or suggestions!  
+License: MIT 🎉
 
-- **username**: Required and unique.
-- **email**: Required and unique.
-- **password**: Required.
-- **role**: Enum (`admin`, `user`, `moderator`), default is `user`.
-- **created_at**: Timestamp when the user is created.
-- **updated_at**: Timestamp when the user data is updated.
-- **deactivated_at**: Timestamp when the user account is deactivated.
-
-Additional fields supported:
-
-- `first_name`
-- `last_name`
-- `phone_number`
-- `profile_picture`
-- `bio`
-- `address`
-- `dob` (Date of birth)
-- `gender` (Enum: `male`, `female`, `other`)
-- `language_preference` (Default is `en`)
-- `timezone`
-- `locked` (Boolean, defaults to `false`)
-- `newsletter_subscribed` (Boolean, defaults to `false`)
-- `privacy_settings` (Flexible field)
-- `deleted_at`, `activated_at`, `reactivated_at` (Timestamps for soft delete/reactivation)
-
----
-
-## License 📝
-
-This package is licensed under the ISC License.
-
----
-
-Enjoy building your user management system with Mongoose! 🎉
-```
+--- 
