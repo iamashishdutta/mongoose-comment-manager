@@ -1,6 +1,4 @@
 
----
-
 # Mongoose User CRUD 📦
 
 A dynamic and easy-to-use user manager for MongoDB using Mongoose. This package allows you to perform CRUD operations for **one or many users** at a time, all while supporting a customizable user schema. 🚀
@@ -9,21 +7,24 @@ A dynamic and easy-to-use user manager for MongoDB using Mongoose. This package 
 
 ## Table of Contents 📜
 
-- Installation 🛠
-- Usage 📘
-- Methods 💻
-- Schema 🔑
-- License 📝
+- [Installation 🛠](#installation-)
+- [Peer Dependencies ⚙️](#-peer-dependencies)
+- [Usage 📘](#usage-)
+- [Methods 💻](#methods-)
+- [Schema 🔑](#schema-)
+- [License 📝](#license-)
 
 ---
 
 ## Installation 🛠
 
-Install via npm:
+To install the package via npm:
 
 ```bash
 npm install mongoose-user-crud
 ```
+
+---
 
 ## ⚙️ Peer Dependencies
 
@@ -33,12 +34,13 @@ Add **Mongoose** as a peer dependency:
 
 ```bash
 npm install mongoose
+```
 
 ---
 
 ## Usage 📘
 
-To get started, require the `mongoose-user-crud` package and instantiate it by providing your MongoDB configuration and dynamic table name (the collection name for your user data). 📊
+To get started, require the `mongoose-user-crud` package and instantiate it by providing your MongoDB configuration and dynamic table name (the collection name for your user data).
 
 ```js
 const UserManager = require('mongoose-user-crud');
@@ -56,14 +58,15 @@ const tableName = 'users'; // This is your dynamic table name (collection name)
 const userManager = new UserManager(dbConfig, tableName);
 ```
 
-**Note:** This package can handle both **single** and **multiple** user requests. You can pass a single user object or an array of users to most methods, making it flexible for both small and large operations. ✨
+> **Note:** This package can handle both **single** and **multiple** user requests. You can pass a single user object or an array of users to most methods, making it flexible for both small and large operations.
 
 ---
 
 ## Methods 💻
 
 ### Create Users ✍️
-Create multiple users at once or a single user. You can pass an array of user data or a single user object.
+
+Create one or more users at once. You can pass an array of user data or a single user object.
 
 ```js
 // Single User
@@ -83,7 +86,8 @@ userManager.create(users)
 ```
 
 ### Get Users 🔍
-Retrieve user(s) by a field and value (e.g., username, email). This method works for both single and multiple requests.
+
+Retrieve one or more users by a field and value (e.g., username, email).
 
 ```js
 // Single User
@@ -103,6 +107,7 @@ userManager.get(usersToGet)
 ```
 
 ### Update Users ✏️
+
 Update user data by a field and value. This method supports both single and multiple updates.
 
 ```js
@@ -123,7 +128,8 @@ userManager.update(usersToUpdate)
 ```
 
 ### Soft Delete Users 🗑️
-Soft delete users (mark as deleted, locked) by a field and value. This works for both single and multiple deletions.
+
+Soft delete users (mark as deleted or locked) by a field and value. This works for both single and multiple deletions.
 
 ```js
 // Single User
@@ -143,7 +149,8 @@ userManager.softDelete(usersToDelete)
 ```
 
 ### Strict Delete Users 🗑️💥
-Permanently delete users by a field and value. This method supports single and multiple user deletions.
+
+Permanently delete users by a field and value. This method supports both single and multiple deletions.
 
 ```js
 // Single User
@@ -163,7 +170,8 @@ userManager.strictDelete(usersToDelete)
 ```
 
 ### Deactivate Users 🚫
-Deactivate users (lock accounts) and set `deactivated_at` timestamp. Works for single and multiple user deactivations.
+
+Deactivate users (lock accounts) and set the `deactivated_at` timestamp. Works for both single and multiple deactivations.
 
 ```js
 // Single User
@@ -183,7 +191,8 @@ userManager.deactivate(usersToDeactivate)
 ```
 
 ### Reactivate Users 🔓
-Reactivate users (unlock accounts) and set `reactivated_at` timestamp. This method works for both single and multiple users.
+
+Reactivate users (unlock accounts) and set the `reactivated_at` timestamp. This method works for both single and multiple reactivations.
 
 ```js
 // Single User
@@ -216,7 +225,7 @@ This package supports a **dynamic schema** for users, where you can define a tab
 - **updated_at**: Timestamp when the user data is updated.
 - **deactivated_at**: Timestamp when the user account is deactivated.
 
-Here's a list of other fields included:
+Additional fields supported:
 
 - `first_name`
 - `last_name`
@@ -242,7 +251,4 @@ This package is licensed under the ISC License.
 ---
 
 Enjoy building your user management system with Mongoose! 🎉
-
----
-
-Let me know if you'd like further adjustments! 😊
+```
