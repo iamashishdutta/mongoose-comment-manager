@@ -1,12 +1,12 @@
 ---
 
-# UserManager README 📖
+# mongoose-user-crud 📖
 
 ## Overview
-The `UserManager` class is designed to manage user data in MongoDB with Mongoose. It supports dynamic table names, allowing you to create, read, update, delete, deactivate, and reactivate user records efficiently. This module provides flexibility for handling user records in different collections.
+The `mongoose-user-crud` package is designed to manage user data in MongoDB using Mongoose. It supports dynamic table names, allowing you to create, read, update, delete, deactivate, and reactivate user records efficiently. This module provides flexibility for handling user records in different collections.
 
 ## Peer Dependencies 📦
-To use the `UserManager`, you'll need to install the following peer dependencies:
+To use the `mongoose-user-crud`, you'll need to install the following peer dependency:
 - `mongoose`: A popular ODM (Object Document Mapper) for MongoDB.
 
 Install it using the following command:
@@ -109,12 +109,12 @@ The schema for the user model is dynamic, and the table name can be provided whe
 ### 1️⃣ **Installation**
 Install the package using npm:
 ```bash
-npm install user-manager
+npm install mongoose-user-crud
 ```
 
 ### 2️⃣ **Example Usage**
 ```js
-const UserManager = require('user-manager');
+const UserManager = require('mongoose-user-crud');
 
 // Initialize the UserManager with database configuration and dynamic table name
 const userManager = new UserManager({
